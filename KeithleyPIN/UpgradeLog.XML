@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Keithley">
+</Property><Property Name="Solution File" Value="C:\Users\manager\Desktop\KeithleyPIN\Keithley.sln">
+</Property><Property Name="User Options File" Value="C:\Users\manager\Desktop\KeithleyPIN\Keithley.suo">
+</Property><Property Name="Date" Value="14 November 2012">
+</Property><Property Name="Time" Value="12:48">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Keithley.sln" Description="File successfully backed up as C:\Users\manager\Desktop\KeithleyPIN\Keithley.sln.old">
+</Event><Event ErrorLevel="0" Project="" Source="Keithley.suo" Description="File successfully backed up as C:\Users\manager\Desktop\KeithleyPIN\Keithley.suo.old">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="Keithley\Keithley.vcproj" Description="Converting project file 'C:\Users\manager\Desktop\KeithleyPIN\Keithley\Keithley.vcproj'.">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="gtkmm-vc90-d-2_4.vsprops" Description="Converting propertysheet file 'C:\Users\manager\Desktop\KeithleyPIN\gtkmm-vc90-d-2_4.vsprops' for configuration 'Debug|Win32'.">
+</Event><Event ErrorLevel="1" Project="Keithley" Source="gtkmm-vc90-d-2_4.vsprops" Description="Attribute 'ProjectType' of 'gtkmm 2.4 Debug' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="Keithley" Source="gtkmm-vc90-d-2_4.vsprops" Description="Attribute 'Version' of 'gtkmm 2.4 Debug' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="gtkmm-vc90-d-2_4.vsprops" Description="Done converting to new property sheet file 'C:\Users\manager\Desktop\KeithleyPIN\gtkmm-vc90-d-2_4.vsprops' for configuration 'Debug|Win32'.">
+</Event><Event ErrorLevel="3" Project="Keithley" Source="gtkmm-vc90-d-2_4.vsprops" Description="Converted">
+</Event><Event ErrorLevel="1" Project="Keithley" Source="Keithley\Keithley.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="gtkmm-vc90-2_4.vsprops" Description="Converting propertysheet file 'C:\Users\manager\Desktop\KeithleyPIN\gtkmm-vc90-2_4.vsprops' for configuration 'Release|Win32'.">
+</Event><Event ErrorLevel="1" Project="Keithley" Source="gtkmm-vc90-2_4.vsprops" Description="Attribute 'ProjectType' of 'gtkmm 2.4 Release' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="Keithley" Source="gtkmm-vc90-2_4.vsprops" Description="Attribute 'Version' of 'gtkmm 2.4 Release' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="gtkmm-vc90-2_4.vsprops" Description="Done converting to new property sheet file 'C:\Users\manager\Desktop\KeithleyPIN\gtkmm-vc90-2_4.vsprops' for configuration 'Release|Win32'.">
+</Event><Event ErrorLevel="3" Project="Keithley" Source="gtkmm-vc90-2_4.vsprops" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Keithley" Source="Keithley\Keithley.vcproj" Description="Done converting to new project file 'C:\Users\manager\Desktop\KeithleyPIN\Keithley\Keithley.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="Keithley" Source="Keithley\Keithley.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Keithley.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Keithley.sln" Description="Converted">
+</Event></UpgradeLog>
