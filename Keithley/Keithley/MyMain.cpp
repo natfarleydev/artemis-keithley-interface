@@ -1,5 +1,6 @@
 // initializing C++
 #include "ni4882.h"
+//#include "GPIB.h"
 #include <gtkmm.h>
 #include <glibmm\thread.h>
 #include <iostream>

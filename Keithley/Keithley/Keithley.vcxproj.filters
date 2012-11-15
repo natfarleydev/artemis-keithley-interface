@@ -23,5 +23,8 @@
     <ClInclude Include="ni4882.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Keithley Instruments\KI-488\include\GPIB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
