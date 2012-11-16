@@ -1,6 +1,6 @@
 // initializing C++
-#include "ni4882.h"
-//#include "GPIB.h"
+//#include "ni4882.h"
+#include "GPIB.h"
 #include <gtkmm.h>
 #include <glibmm\thread.h>
 #include <iostream>
@@ -127,10 +127,10 @@ static void button_clicked1()
 	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
 	ibwrt(Device,stringinput, strlen(stringinput));     /* Check what the voltage is set to   */
 	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-	if (Ibsta() & ERR) {
+	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	float voltage = atof(Buffer);
@@ -151,10 +151,10 @@ static void button_clicked2()
 	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
 	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
 	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-	if (Ibsta() & ERR) {
+	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	double startpoint = atof(Buffer);
@@ -194,10 +194,10 @@ static void setvoltage()
 	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
 	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
 	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-	if (Ibsta() & ERR) {
+	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	float startpoint = atof(Buffer);
@@ -218,10 +218,10 @@ static void setvoltage()
 	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
 	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
 	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-	if (Ibsta() & ERR) {
+	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 	cout << "SET VOLTAGE TO : " << Buffer << endl;
 
 	float volt = atof(Buffer);
@@ -246,10 +246,10 @@ void tfunc(gpointer null)
 	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 
 	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-	if (Ibsta() & ERR) {
+	if (ibsta & ERR) {
       GpibError("ibrd Error");	
 	}
-	Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 //	printf("%s\n", Buffer);        /* Print the device identification         */
 
 
@@ -259,10 +259,10 @@ void tfunc(gpointer null)
 		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 
 		ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-		if (Ibsta() & ERR) {
+		if (ibsta & ERR) {
 		GpibError("ibrd Error");	
 		}
-		Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+		Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
 //		printf("%s\n", Buffer);        /* Print the device identification         */
 
 		time_t timenow = time(NULL);
@@ -341,12 +341,12 @@ int main(int argc, char* argv[])
          T10s,                    /* Timeout setting (T10s = 10 seconds)     */
          1,                       /* Assert EOI line at end of write         */
          0);                      /* EOS termination mode                    */
-   if (Ibsta() & ERR) {           /* Check for GPIB Error                    */
+   if (ibsta & ERR) {           /* Check for GPIB Error                    */
       GpibError("ibdev Error"); 
    }
 
    ibclr(Device);                 /* Clear the device                        */
-   if (Ibsta() & ERR) {
+   if (ibsta & ERR) {
       GpibError("ibclr Error");
    }
 
@@ -355,15 +355,15 @@ int main(int argc, char* argv[])
  *****************************************************************************/
 
    ibwrt(Device, "*IDN?", 5);     /* Send the identification query command   */
-   if (Ibsta() & ERR) {
+   if (ibsta & ERR) {
       GpibError("ibwrt Error");
    }
 
    ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
-   if (Ibsta() & ERR) {
+   if (ibsta & ERR) {
       GpibError("ibrd Error");	
    }
-   Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
+   Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
    printf("%s\n", Buffer);        /* Print the device identification         */
 
 
@@ -471,47 +471,47 @@ void GpibError(const char *msg) {
 
     printf("%s\n", msg);
 
-    printf("Ibsta() = 0x%x  <", Ibsta());
-    if (Ibsta() & ERR )  printf(" ERR");
-    if (Ibsta() & TIMO)  printf(" TIMO");
-    if (Ibsta() & END )  printf(" END");
-    if (Ibsta() & SRQI)  printf(" SRQI");
-    if (Ibsta() & RQS )  printf(" RQS");
-    if (Ibsta() & CMPL)  printf(" CMPL");
-    if (Ibsta() & LOK )  printf(" LOK");
-    if (Ibsta() & REM )  printf(" REM");
-    if (Ibsta() & CIC )  printf(" CIC");
-    if (Ibsta() & ATN )  printf(" ATN");
-    if (Ibsta() & TACS)  printf(" TACS");
-    if (Ibsta() & LACS)  printf(" LACS");
-    if (Ibsta() & DTAS)  printf(" DTAS");
-    if (Ibsta() & DCAS)  printf(" DCAS");
+    printf("ibsta = 0x%x  <", ibsta);
+    if (ibsta & ERR )  printf(" ERR");
+    if (ibsta & TIMO)  printf(" TIMO");
+    if (ibsta & END )  printf(" END");
+    if (ibsta & SRQI)  printf(" SRQI");
+    if (ibsta & RQS )  printf(" RQS");
+    if (ibsta & CMPL)  printf(" CMPL");
+    if (ibsta & LOK )  printf(" LOK");
+    if (ibsta & REM )  printf(" REM");
+    if (ibsta & CIC )  printf(" CIC");
+    if (ibsta & ATN )  printf(" ATN");
+    if (ibsta & TACS)  printf(" TACS");
+    if (ibsta & LACS)  printf(" LACS");
+    if (ibsta & DTAS)  printf(" DTAS");
+    if (ibsta & DCAS)  printf(" DCAS");
     printf (" >\n");
 
-    printf ("Iberr() = %d", Iberr());
-    if (Iberr() == EDVR) printf(" EDVR <Driver error>\n");
-    if (Iberr() == ECIC) printf(" ECIC <Not Controller-In-Charge>\n");
-    if (Iberr() == ENOL) printf(" ENOL <No Listener>\n");
-    if (Iberr() == EADR) printf(" EADR <Address error>\n");
-    if (Iberr() == EARG) printf(" EARG <Invalid argument>\n");
-    if (Iberr() == ESAC) printf(" ESAC <Not System Controller>\n");
-    if (Iberr() == EABO) printf(" EABO <Operation aborted>\n");
-    if (Iberr() == ENEB) printf(" ENEB <No GPIB board>\n");
-    if (Iberr() == EOIP) printf(" EOIP <Async I/O in progress>\n");
-    if (Iberr() == ECAP) printf(" ECAP <No capability>\n");
-    if (Iberr() == EFSO) printf(" EFSO <File system error>\n");
-    if (Iberr() == EBUS) printf(" EBUS <Command error>\n");
-    if (Iberr() == ESTB) printf(" ESTB <Status byte lost>\n");
-    if (Iberr() == ESRQ) printf(" ESRQ <SRQ stuck on>\n");
-    if (Iberr() == ETAB) printf(" ETAB <Table Overflow>\n");
-    if (Iberr() == ELCK) printf(" ELCK <Lock error>\n");
-    if (Iberr() == EARM) printf(" EARM <Ibnotify rearm error>\n");
-    if (Iberr() == EHDL) printf(" EHDL <Invalid Handle>\n");
-    if (Iberr() == EWIP) printf(" EWIP <Wait already in progress>\n");
-    if (Iberr() == ERST) printf(" ERST <Notification cancelled due to reset>\n");
-    if (Iberr() == EPWR) printf(" EPWR <Power error>\n");
+    printf ("iberr = %d", iberr);
+    if (iberr == EDVR) printf(" EDVR <Driver error>\n");
+    if (iberr == ECIC) printf(" ECIC <Not Controller-In-Charge>\n");
+    if (iberr == ENOL) printf(" ENOL <No Listener>\n");
+    if (iberr == EADR) printf(" EADR <Address error>\n");
+    if (iberr == EARG) printf(" EARG <Invalid argument>\n");
+    if (iberr == ESAC) printf(" ESAC <Not System Controller>\n");
+    if (iberr == EABO) printf(" EABO <Operation aborted>\n");
+    if (iberr == ENEB) printf(" ENEB <No GPIB board>\n");
+    if (iberr == EOIP) printf(" EOIP <Async I/O in progress>\n");
+    if (iberr == ECAP) printf(" ECAP <No capability>\n");
+    if (iberr == EFSO) printf(" EFSO <File system error>\n");
+    if (iberr == EBUS) printf(" EBUS <Command error>\n");
+    if (iberr == ESTB) printf(" ESTB <Status byte lost>\n");
+    if (iberr == ESRQ) printf(" ESRQ <SRQ stuck on>\n");
+    if (iberr == ETAB) printf(" ETAB <Table Overflow>\n");
+    if (iberr == ELCK) printf(" ELCK <Lock error>\n");
+    if (iberr == EARM) printf(" EARM <Ibnotify rearm error>\n");
+    if (iberr == EHDL) printf(" EHDL <Invalid Handle>\n");
+    if (iberr == EWIP) printf(" EWIP <Wait already in progress>\n");
+    if (iberr == ERST) printf(" ERST <Notification cancelled due to reset>\n");
+    if (iberr == EPWR) printf(" EPWR <Power error>\n");
 
-    printf("Ibcnt() = %u\n", Ibcnt());
+    printf("ibcnt = %u\n", ibcnt);
     printf("\n");
 
     /* Call ibonl to take the device and interface offline */
