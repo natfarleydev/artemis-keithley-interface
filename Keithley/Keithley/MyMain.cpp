@@ -338,6 +338,8 @@ int main(int argc, char* argv[])
    int   SecondaryAddress = 0;    /* Secondary address of the device         */
    char  Buffer[101];             /* Read buffer                             */
 
+   cout << ibcnt;
+
 /*****************************************************************************
  * Initialization - Done only once at the beginning of your application.
  *****************************************************************************/
