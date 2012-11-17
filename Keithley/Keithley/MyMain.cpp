@@ -1,5 +1,12 @@
+/*
+ * Notes to the programmer looking at this
+ *
+ * The program relies on 32-bit libraries, so when linking to new libraries
+ * remember to link 32-bit libraries. 
+ */
+
+
 // initializing C++
-//#include "ni4882.h"
 #include "GPIB.h"
 #include <gtkmm.h>
 #include <glibmm\thread.h>
