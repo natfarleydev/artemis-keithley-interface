@@ -11,6 +11,14 @@
 #include <iostream>
 #include <fstream>
 #include "windows.h"
+
+#define EARM  22  // The ibnotify Callback failed to rearm
+#define EHDL  23  // The input handle is invalid
+#define EWIP  26  // Wait already in progress on input ud
+#define ERST  27  // The event notification was cancelled due to a reset of the interface
+#define EPWR  28  // The system or board has lost power or gone to standby
+
+
 using namespace std;
 
 time_t startingtime;
