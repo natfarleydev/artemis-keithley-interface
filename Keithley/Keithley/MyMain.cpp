@@ -138,7 +138,7 @@ static void button_clicked1()
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	float voltage = atof(Buffer);
@@ -162,7 +162,7 @@ static void button_clicked2()
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	double startpoint = atof(Buffer);
@@ -205,7 +205,7 @@ static void setvoltage()
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 	printf("%s\n", Buffer);        /* Print the device identification         */
 
 	float startpoint = atof(Buffer);
@@ -229,7 +229,7 @@ static void setvoltage()
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
-	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 	cout << "SET VOLTAGE TO : " << Buffer << endl;
 
 	float volt = atof(Buffer);
@@ -257,7 +257,7 @@ void tfunc(gpointer null)
 	if (ibsta & ERR) {
       GpibError("ibrd Error");	
 	}
-	Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 //	printf("%s\n", Buffer);        /* Print the device identification         */
 
 
@@ -270,7 +270,7 @@ void tfunc(gpointer null)
 		if (ibsta & ERR) {
 		GpibError("ibrd Error");	
 		}
-		Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+		Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 //		printf("%s\n", Buffer);        /* Print the device identification         */
 
 		time_t timenow = time(NULL);
@@ -371,7 +371,7 @@ int main(int argc, char* argv[])
    if (ibsta & ERR) {
       GpibError("ibrd Error");	
    }
-   Buffer[ibcnt] = '\0';        /* Null terminate the ASCII string         */
+   Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
    printf("%s\n", Buffer);        /* Print the device identification         */
 
 
@@ -519,7 +519,7 @@ void GpibError(const char *msg) {
     if (iberr == ERST) printf(" ERST <Notification cancelled due to reset>\n");
     if (iberr == EPWR) printf(" EPWR <Power error>\n");
 
-    printf("ibcnt = %u\n", ibcnt);
+    printf("ibcntl = %u\n", ibcntl);
     printf("\n");
 
     /* Call ibonl to take the device and interface offline */
