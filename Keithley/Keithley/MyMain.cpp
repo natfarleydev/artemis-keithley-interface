@@ -409,7 +409,7 @@ int main(int argc, char* argv[])
 
 	/*-- Create the buttons --*/
 
-	label1  = gtk_label_new("Required Voltage (V):");
+	label1  = gtk_label_new("Required Voltage (V) (press <Enter> to set):");
 	entry1  = gtk_entry_new();
 	label2  = gtk_label_new("Set Voltage (V):");
 	entry2  = gtk_entry_new();
