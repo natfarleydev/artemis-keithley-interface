@@ -1,3 +1,15 @@
+/* This program is adapted from the Keithley program found in ../Keithley
+ * using the ni4882 api. Minimal changes have been made, therefore artifacts
+ * of the gui remain, despite the fact that there is no gui present to the
+ * user.
+ *
+ * TODO
+ * If useful, this program can be quickly adapted for use by the KUSB-488B by
+ * use of the webpage 
+ * http://digital.ni.com/public.nsf/allkb/85C6F4990C8BA691862575FB006F1EDB
+ * and linking the 32-bit GPIB library instead of the ni4882 library.
+ */
+
 // initializing C++
 #include "ni4882.h"
 #include <gtkmm.h>
