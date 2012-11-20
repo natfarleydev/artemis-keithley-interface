@@ -42,6 +42,9 @@ GtkWidget *button1;
 GtkWidget *button2;
 GtkWidget *button3;
 
+// Added for testing GTK
+GtkWidget *button4;
+
 char  Buffer[101];             
 //FILE *outputfile;
 ofstream outputfile;
@@ -401,7 +404,8 @@ int main(int argc, char* argv[])
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	/*-- Set the window to be 640 x 480 pixels --*/
-	gtk_window_set_default_size (GTK_WINDOW(window), 500, 100);
+	gtk_window_set_default_size (GTK_WINDOW(window), 640, 480);
+//	gtk_window_set_default_size (GTK_WINDOW(window), 500, 100);
 
 	/*-- Set the window title --*/
 	gtk_window_set_title(GTK_WINDOW (window), "Keithley 2410 Control");
@@ -409,7 +413,7 @@ int main(int argc, char* argv[])
 
 	/*-- Create the buttons --*/
 
-	label1  = gtk_label_new("Required Voltage (V) (press <Enter> to set):");
+	label1  = gtk_label_new("Required Voltage (V)\n(press <Enter> to set):");
 	entry1  = gtk_entry_new();
 	label2  = gtk_label_new("Set Voltage (V):");
 	entry2  = gtk_entry_new();
@@ -421,9 +425,19 @@ int main(int argc, char* argv[])
 	button2 = gtk_button_new_with_label("OFF");
 	button3 = gtk_button_new_with_label("QUIT");
 
-	/*-- Create the 1x2 table --*/
-	table = gtk_table_new(2, 3, TRUE);
+	// Added to test GTK
+	button4 = gtk_button_new_with_label("TEST");
 
+	// Create the 1x2 table 
+	// The table will expand as new widgets are placed in new cells
+	table = gtk_table_new(1, 2, TRUE);
+
+	// void                gtk_table_attach_defaults           (GtkTable *table,
+    //                                                     GtkWidget *widget,
+    //                                                     guint left_attach,
+    //                                                     guint right_attach,
+    //                                                     guint top_attach,
+    //                                                     guint bottom_attach);
 	gtk_table_attach_defaults(GTK_TABLE(table), label1,       0, 1, 0, 1);
 	gtk_table_attach_defaults(GTK_TABLE(table), entry1,       1, 3, 0, 1);
 	gtk_table_attach_defaults(GTK_TABLE(table), button1,      0, 1, 1, 2);
@@ -433,6 +447,9 @@ int main(int argc, char* argv[])
 	gtk_table_attach_defaults(GTK_TABLE(table), entry2,       1, 3, 2, 3);
 	gtk_table_attach_defaults(GTK_TABLE(table), label3,       0, 1, 3, 4);
 	gtk_table_attach_defaults(GTK_TABLE(table), entry3,       1, 3, 3, 4);
+	
+	// Added to test GTK
+	gtk_table_attach_defaults(GTK_TABLE(table), button4,      0, 3, 4, 5);
 
 	/*-- Connect the button to the button_was_clicked function --*/
 	gtk_signal_connect(GTK_OBJECT(button1), "clicked", GTK_SIGNAL_FUNC(button_clicked1), NULL);
