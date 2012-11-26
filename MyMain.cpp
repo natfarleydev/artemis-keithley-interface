@@ -92,7 +92,7 @@ static int pulsesweepvoltage(double bottom, double top, int no_of_steps) {
 
 	for(int i=0; i<=no_of_steps; i++) {
 		// Set up the voltage
-		double tempvolt = bottom + (double)i * ( (top - bottom)/(bottom+top) );
+		double tempvolt = bottom + (double)i * ( (top - bottom)/((double)no_of_steps) );
 
 		char tempbuff[100];
 		cout << "votage to set = " << tempvolt << endl;
