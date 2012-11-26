@@ -58,7 +58,7 @@ void GpibError(const char * msg); /* Error function declaration              */
 
 int Device = 0;                   /* Device unit descriptor                  */
 int BoardIndex = 0;               /* Interface Index (GPIB0=0,GPIB1=1,etc.)  */
-static char stringinput[512];
+static char stringinput[512]; // TODO remove global variables in time for expansion
 
 
 /*-- This function gets the time --*/
@@ -82,6 +82,39 @@ gint destroyapp (GtkWidget *widget, gpointer gdata)
   return (FALSE);
 }
 
+static int pulsesweepvoltage(double bottom, double top, int no_of_steps) {
+	// Function to sweep voltage with pulses
+	cout << "Activated pulse voltage" << endl;
+	cout << "This function sweeps with a pulsing voltage" << endl;
+	cout << "Lowest voltage " << bottom << " V" << endl;
+	cout << "Highest voltage " << top << " V" << endl;
+	cout << "Number of steps " << no_of_steps << endl;
+
+	for(int i=0; i<=no_of_steps; i++) {
+		// Set up the voltage
+		double tempvolt = bottom + (double)i * ( (top - bottom)/(bottom+top) );
+
+		char tempbuff[100];
+		cout << "votage to set = " << tempvolt << endl;
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
+		strcat(stringinput,itoa(tempvolt,tempbuff,10));
+		printf("command: %s\n",stringinput);
+		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		Sleep(10);
+		// TODO Send the output to a file HERE
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL 0");
+		ibwrt(Device, stringinput, strlen(stringinput));
+		Sleep(100);
+
+		cout << "Pulsed " << tempvolt << " V." << endl;
+	}
+
+	cout << "End of function";
+
+	// Should be pretty useful to exit the function with an error code at some point.
+	return 0;
+
+}
 static void rampvoltagedown(int start, int end)
 {
 	printf("IN RAMP DOWN\n");
@@ -92,9 +125,9 @@ static void rampvoltagedown(int start, int end)
 	{
 		char tempbuff[100];
 		cout << "votage to set = " << i << endl;
-		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
-		strcat(stringinput,itoa(i,tempbuff,10));
-		printf("command: %s\n",stringinput);
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL "); // fill the first bit of the string with input
+		strcat(stringinput,itoa(i,tempbuff,10)); // add a bit to the end http://www.cplusplus.com/reference/cstdlib/itoa/
+		printf("command: %s\n",stringinput); // print the command sent
 		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 		Sleep(100);
 	}
@@ -202,6 +235,15 @@ static void button_clicked3()
 {
 	std::cout << "Button3 (QUIT) Pressed" << std::endl;
 	gtk_main_quit();
+}
+
+static void button_clicked4() {
+	// Function for the 'test' button
+	// Mapped to the pulsevoltagesweep function
+
+	pulsesweepvoltage(0,10,100);
+
+	cout << "button 4 pressed, and function (hopefully) executed.";
 }
 
 static void setvoltage()
@@ -463,6 +505,7 @@ int main(int argc, char* argv[])
 	gtk_signal_connect(GTK_OBJECT(button1), "clicked", GTK_SIGNAL_FUNC(button_clicked1), NULL);
 	gtk_signal_connect(GTK_OBJECT(button2), "clicked", GTK_SIGNAL_FUNC(button_clicked2), NULL);
 	gtk_signal_connect(GTK_OBJECT(button3), "clicked", GTK_SIGNAL_FUNC(button_clicked3), NULL);
+	gtk_signal_connect(GTK_OBJECT(button4), "clicked", GTK_SIGNAL_FUNC(button_clicked4), NULL);
 	gtk_signal_connect(GTK_OBJECT(entry1), "activate", GTK_SIGNAL_FUNC(setvoltage), NULL); 
 		/*-- Add the table to the window --*/
 	gtk_table_set_row_spacings(GTK_TABLE(table),5);
