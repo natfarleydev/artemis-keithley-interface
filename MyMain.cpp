@@ -82,6 +82,17 @@ gint destroyapp (GtkWidget *widget, gpointer gdata)
   return (FALSE);
 }
 
+static void pulsesweepvoltage(int bottom, int top, int no_of_steps) {
+	// Function to sweep voltage with pulses
+	cout << "Activated pulse voltage" << endl;
+	cout << "This function sweeps with a pulsing voltage" << endl;
+	cout << "Lowest voltage " << bottom << " V" << endl;
+	cout << "Highest voltage " << top << " V" << endl;
+	cout << "Number of steps " << no_of_steps << endl;
+
+	cout << "End of function";
+
+}
 static void rampvoltagedown(int start, int end)
 {
 	printf("IN RAMP DOWN\n");
@@ -92,9 +103,9 @@ static void rampvoltagedown(int start, int end)
 	{
 		char tempbuff[100];
 		cout << "votage to set = " << i << endl;
-		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
-		strcat(stringinput,itoa(i,tempbuff,10));
-		printf("command: %s\n",stringinput);
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL "); // fill the first bit of the string with input
+		strcat(stringinput,itoa(i,tempbuff,10)); // add a bit to the end http://www.cplusplus.com/reference/cstdlib/itoa/
+		printf("command: %s\n",stringinput); // print the command sent
 		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 		Sleep(100);
 	}
@@ -202,6 +213,15 @@ static void button_clicked3()
 {
 	std::cout << "Button3 (QUIT) Pressed" << std::endl;
 	gtk_main_quit();
+}
+
+static void botton_clicked4() {
+	// Function for the 'test' button
+	// Mapped to the pulsevoltagesweep function
+
+	pulsesweepvoltage(0,10,100);
+
+	cout << "button 4 pressed, and function (hopefully) executed.";
 }
 
 static void setvoltage()
