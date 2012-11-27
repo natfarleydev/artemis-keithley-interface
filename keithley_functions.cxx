@@ -9,6 +9,8 @@
 #include "windows.h"
 #include "keithley_functions.h"
 
+using namespace std;
+
 KeithleyDevice::KeithleyDevice() {
 	Device = 0;
 	BoardIndex = 0;
