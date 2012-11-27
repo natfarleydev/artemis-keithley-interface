@@ -82,7 +82,7 @@ gint destroyapp (GtkWidget *widget, gpointer gdata)
   return (FALSE);
 }
 
-static int pulsesweepvoltage(double bottom, double top, int no_of_steps) {
+static void pulsesweepvoltage(double bottom, double top, int no_of_steps) {
 	// Function to sweep voltage with pulses
 	cout << "Activated pulse voltage" << endl;
 	cout << "This function sweeps with a pulsing voltage" << endl;
@@ -112,7 +112,7 @@ static int pulsesweepvoltage(double bottom, double top, int no_of_steps) {
 	cout << "End of function";
 
 	// Should be pretty useful to exit the function with an error code at some point.
-	return 0;
+	//return 0;
 
 }
 static void rampvoltagedown(int start, int end)
@@ -317,7 +317,6 @@ void tfunc(gpointer null)
 	Buffer[ibcntl] = '\0';        /* Null terminate the ASCII string         */
 //	printf("%s\n", Buffer);        /* Print the device identification         */
 
-
 	if(atoi(Buffer) == 1)
 	{
 		strcpy(stringinput,":READ?");
@@ -375,7 +374,10 @@ void tfunc(gpointer null)
 void func( GtkWidget *widget, gpointer null )
 {
 GThread *tid;
-tid = g_thread_create( (GThreadFunc)tfunc, NULL, FALSE, NULL );
+//const gchar *name;
+
+tid = g_thread_create( (GThreadFunc)tfunc, NULL, FALSE, NULL ); // depreciated API
+//tid = g_thread_new( NULL, (GThreadFunc)tfunc, NULL );
 }
 
 
@@ -519,7 +521,8 @@ int main(int argc, char* argv[])
 	/*-- Set window border to zero so that text area takes up the whole window --*/
 	gtk_container_border_width (GTK_CONTAINER (window), 5);
 
-	g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, (GSourceFunc) &func, NULL,NULL);
+	//g_idle_add_full(G_PRIORITY_DEFAULT_IDLE, (GSourceFunc) &func, NULL,NULL); //caused error -410 when the Keithley was plugged in
+	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, 1000, (GSourceFunc) &func, NULL,NULL);
 
 
 	/*-- Display the widgets --*/
