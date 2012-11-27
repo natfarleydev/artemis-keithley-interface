@@ -76,13 +76,10 @@
     <ClCompile Include="keithley_functions.cxx" />
     <ClCompile Include="MyMain.cpp" />
   </ItemGroup>
-<<<<<<< Updated upstream
-=======
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Program Files (x86)\Keithley Instruments\KI-488\include\GPIB.h" />
     <ClInclude Include="keithley_functions.h" />
   </ItemGroup>
->>>>>>> Stashed changes
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
