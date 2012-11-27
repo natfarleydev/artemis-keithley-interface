@@ -84,59 +84,6 @@ gint destroyapp (GtkWidget *widget, gpointer gdata)
   return (FALSE);
 }
 
-<<<<<<< Updated upstream
-static int pulsesweepvoltage(double bottom, double top, int no_of_steps) {
-	// Function to sweep voltage with pulses
-	cout << "Activated pulse voltage" << endl;
-	cout << "This function sweeps with a pulsing voltage" << endl;
-	cout << "Lowest voltage " << bottom << " V" << endl;
-	cout << "Highest voltage " << top << " V" << endl;
-	cout << "Number of steps " << no_of_steps << endl;
-
-	for(int i=0; i<=no_of_steps; i++) {
-		// Set up the voltage
-		double tempvolt = bottom + (double)i * ( (top - bottom)/(bottom+top) );
-
-		char tempbuff[100];
-		cout << "votage to set = " << tempvolt << endl;
-		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
-		strcat(stringinput,itoa(tempvolt,tempbuff,10));
-		printf("command: %s\n",stringinput);
-		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
-		Sleep(10);
-		// TODO Send the output to a file HERE
-		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL 0");
-		ibwrt(Device, stringinput, strlen(stringinput));
-		Sleep(100);
-
-		cout << "Pulsed " << tempvolt << " V." << endl;
-	}
-
-	cout << "End of function";
-
-	// Should be pretty useful to exit the function with an error code at some point.
-	return 0;
-
-}
-static void rampvoltagedown(int start, int end)
-{
-	printf("IN RAMP DOWN\n");
-	printf("Start Voltage %i\n",start);
-	printf("End Voltage %i\n",end);
-
-	for(int i=start; i>end-1; i=i-1)
-	{
-		char tempbuff[100];
-		cout << "votage to set = " << i << endl;
-		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL "); // fill the first bit of the string with input
-		strcat(stringinput,itoa(i,tempbuff,10)); // add a bit to the end http://www.cplusplus.com/reference/cstdlib/itoa/
-		printf("command: %s\n",stringinput); // print the command sent
-		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
-		Sleep(100);
-	}
-
-}
-=======
 //static void pulsesweepvoltage(double bottom, double top, int no_of_steps) {
 //	// Function to sweep voltage with pulses
 //	cout << "Activated pulse voltage" << endl;
@@ -188,7 +135,6 @@ static void rampvoltagedown(int start, int end)
 //	}
 //
 //}
->>>>>>> Stashed changes
 
 static void rampvoltageup(int start, int end)
 {
