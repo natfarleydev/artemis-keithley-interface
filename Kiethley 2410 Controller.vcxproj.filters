@@ -18,5 +18,19 @@
     <ClCompile Include="MyMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="keithley_functions.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Program Files (x86)\Keithley Instruments\KI-488\include\GPIB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keithley_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+>>>>>>> Stashed changes
 </Project>
