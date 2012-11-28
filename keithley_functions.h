@@ -7,6 +7,7 @@ class KeithleyDevice {
 public:
 	void pulsesweepvoltage(double,double,int);
 	void rampvoltagedown(int,int);
+	void rampvoltageup(int,int);
 	KeithleyDevice();
 private:
  

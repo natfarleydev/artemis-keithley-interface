@@ -65,3 +65,22 @@ void KeithleyDevice::rampvoltagedown(int start, int end) {
 		Sleep(100);
 	}
 }
+
+void KeithleyDevice::rampvoltageup(int start, int end)
+{
+	printf("IN RAMP UP\n");
+	printf("Start Voltage %i\n",start);
+	printf("End Voltage %i\n",end);
+
+	for(int i=start; i<end+1; i=i+1)
+	{
+		char tempbuff[100];
+		cout << "votage to set = " << i << endl;
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
+		strcat(stringinput,itoa(i,tempbuff,10));
+		printf("command: %s\n",stringinput);
+		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		Sleep(100);
+	}
+
+}
