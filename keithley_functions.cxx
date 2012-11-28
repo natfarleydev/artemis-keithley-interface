@@ -113,3 +113,23 @@ int KeithleyDevice::read(void * c, int i) {
 
 	return 0; // One day this will look for errors.
 }
+
+int KeithleyDevice::close_connection() {
+	// from NI:
+	// Note: The ibonl command is used to close down the unit descriptors after
+	// you are done using them. You should call ibonl at the end of your 
+	// application, once for each call you made to ibdev or ibfind. It is used 
+	// this way:
+	//
+	// ud0: ibonl 0
+
+	ibonl(Device, 0);
+
+	return 0; // would be good to return errors from here sometime.
+}
+
+int KeithleyDevice::clear() {
+	ibclr(Device);
+
+	return 0; // TODO error checking
+}

@@ -57,9 +57,9 @@ ofstream outputfile;
 
 void GpibError(const char * msg); /* Error function declaration              */
 
-int Device = 0;                   /* Device unit descriptor                  */
-int BoardIndex = 0;               /* Interface Index (GPIB0=0,GPIB1=1,etc.)  */
-static char stringinput[512]; // TODO remove global variables in time for expansion
+//int Device = 0;                   /* Device unit descriptor                  */
+//int BoardIndex = 0;               /* Interface Index (GPIB0=0,GPIB1=1,etc.)  */
+//static char stringinput[512]; // TODO remove global variables in time for expansion
 
 KeithleyDevice kdevice=KeithleyDevice();
 
@@ -428,18 +428,19 @@ int main(int argc, char* argv[])
  * Initialization - Done only once at the beginning of your application.
  *****************************************************************************/
 
-   Device = ibdev(                /* Create a unit descriptor handle         */
-         0,              /* Board Index (GPIB0 = 0, GPIB1 = 1, ...) */
-         PrimaryAddress,          /* Device primary address                  */
-         SecondaryAddress,        /* Device secondary address                */
-         T10s,                    /* Timeout setting (T10s = 10 seconds)     */
-         1,                       /* Assert EOI line at end of write         */
-         0);                      /* EOS termination mode                    */
+   //Device = ibdev(                /* Create a unit descriptor handle         */
+   //      0,              /* Board Index (GPIB0 = 0, GPIB1 = 1, ...) */
+   //      PrimaryAddress,          /* Device primary address                  */
+   //      SecondaryAddress,        /* Device secondary address                */
+   //      T10s,                    /* Timeout setting (T10s = 10 seconds)     */
+   //      1,                       /* Assert EOI line at end of write         */
+   //      0);                      /* EOS termination mode                    */
    if (ibsta & ERR) {           /* Check for GPIB Error                    */
       GpibError("ibdev Error"); 
    }
 
-   ibclr(Device);                 /* Clear the device                        */
+   //ibclr(Device);                 /* Clear the device                        */
+   kdevice.clear();
    if (ibsta & ERR) {
       GpibError("ibclr Error");
    }
@@ -634,7 +635,8 @@ void GpibError(const char *msg) {
     printf("\n");
 
     /* Call ibonl to take the device and interface offline */
-    ibonl(Device, 0);
+    //ibonl(Device, 0);
+	kdevice.close_connection();
 
 	gdk_threads_leave();
 

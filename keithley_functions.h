@@ -10,6 +10,8 @@ public:
 	void rampvoltageup(int,int);
 	int write(const char *);
 	int read(void *,int);
+	int close_connection();
+	int clear();
 	KeithleyDevice();
 private:
  
