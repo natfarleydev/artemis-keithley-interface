@@ -12,7 +12,18 @@
 using namespace std;
 
 KeithleyDevice::KeithleyDevice() {
-	Device = 0;
+	int PrimaryAddress = 24;
+	int SecondaryAddress = 0;
+	// OK, I don't really understand this ibdev command, so I copied it straight
+	// from the previous version. This could be the source of the error I had
+	// when I tried to use this class with the device previously.
+	Device = ibdev(                /* Create a unit descriptor handle         */
+         0,              /* Board Index (GPIB0 = 0, GPIB1 = 1, ...) */
+         PrimaryAddress,          /* Device primary address                  */
+         SecondaryAddress,        /* Device secondary address                */
+         T10s,                    /* Timeout setting (T10s = 10 seconds)     */
+         1,                       /* Assert EOI line at end of write         */
+         0);                      /* EOS termination mode                    */
 	BoardIndex = 0;
 }
 
@@ -83,4 +94,22 @@ void KeithleyDevice::rampvoltageup(int start, int end)
 		Sleep(100);
 	}
 
+}
+
+int KeithleyDevice::write(const char * c) {
+	strcpy(stringinput,c);
+	ibwrt(Device,stringinput,strlen(stringinput));
+	cout << "string " << c << " hopefully written to device!";
+
+	return 0;
+	//strcpy(stringinput
+}
+
+int KeithleyDevice::read(void * c, int i) {
+	// This function reads i no of bytes from the device.
+	// void in this case can easily be a char[]
+	// (at least this is how it was used in the previous version of this program.)
+	ibrd(Device,c,i);
+
+	return 0; // One day this will look for errors.
 }

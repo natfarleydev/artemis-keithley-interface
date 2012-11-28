@@ -183,9 +183,13 @@ static void button_clicked1()
 	cout << seconds      << "\t seconds since January 1, 1970 " << endl;
 
 
-	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Check what the voltage is set to   */
-	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	//strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Check what the voltage is set to   */
+	kdevice.write(":SOUR:VOLT:IMM:AMPL?");
+	//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device
+	//							    * and puts it in Buffer*/
+	kdevice.read(Buffer,100);
+
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
@@ -198,18 +202,21 @@ static void button_clicked1()
 	if(voltage != 0.) warning_dialog(voltage);
 
 
-	strcpy(stringinput,":OUTP ON");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
-
+	//strcpy(stringinput,":OUTP ON");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
+	kdevice.write(":OUTP ON");
 }
 
 static void button_clicked2()
 {
 	g_print ("Button2 (OFF) Pressed\n");
 
-	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
-	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	//strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
+	kdevice.write(":SOUR:VOLT:IMM:AMPL?");
+
+	//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	kdevice.read(Buffer,100);
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
@@ -228,9 +235,9 @@ static void button_clicked2()
 		kdevice.rampvoltagedown(startpoint,endpoint);
 	}
 
-	strcpy(stringinput,":OUTP OFF");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
-
+	//strcpy(stringinput,":OUTP OFF");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+	kdevice.write("OUTP OFF");
 
 }
 
@@ -259,9 +266,12 @@ static void setvoltage()
 	entry_text = gtk_entry_get_text(GTK_ENTRY(entry1));
 	printf("Entry contents: %s\n", entry_text);
 
-	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
-	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	//strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
+	kdevice.write(":SOUR:VOLT:IMM:AMPL?");
+
+	//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	kdevice.read(Buffer,100);
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
@@ -283,9 +293,13 @@ static void setvoltage()
 		kdevice.rampvoltagedown(startpoint,endpoint);
 	}
 
-	strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
-	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	//strcpy(stringinput,":SOUR:VOLT:IMM:AMPL?");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the ON command   */
+	kdevice.write(":SOUR:VOLT:IMM:AMPL?");
+
+	//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	kdevice.read(Buffer,100);
+
 	if (ibsta & ERR) {
      GpibError("ibrd Error");	
 	}
@@ -310,10 +324,13 @@ void tfunc(gpointer null)
 //	strcpy(stringinput,":READ?");
 //	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 
-	strcpy(stringinput,":OUTP:STAT?");
-	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+	//strcpy(stringinput,":OUTP:STAT?");
+	//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+	kdevice.write(":OUTP:STAT?");
 
-	ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+	kdevice.read(Buffer,100);
+
 	if (ibsta & ERR) {
       GpibError("ibrd Error");	
 	}
@@ -322,10 +339,12 @@ void tfunc(gpointer null)
 
 	if(atoi(Buffer) == 1)
 	{
-		strcpy(stringinput,":READ?");
-		ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		//strcpy(stringinput,":READ?");
+		//ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		kdevice.write(":READ?");
 
-		ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+		//ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+		kdevice.read(Buffer,100);
 		if (ibsta & ERR) {
 		GpibError("ibrd Error");	
 		}
@@ -429,12 +448,14 @@ int main(int argc, char* argv[])
  * Main Application Body - Write the majority of your GPIB code here.
  *****************************************************************************/
 
-   ibwrt(Device, "*IDN?", 5);     /* Send the identification query command   */
+   //ibwrt(Device, "*IDN?", 5);     /* Send the identification query command   */
+   kdevice.write("*IDN?");
    if (ibsta & ERR) {
       GpibError("ibwrt Error");
    }
 
-   ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+   //ibrd(Device, Buffer, 100);     /* Read up to 100 bytes from the device    */
+   kdevice.read(Buffer,100);
    if (ibsta & ERR) {
       GpibError("ibrd Error");	
    }
@@ -442,18 +463,25 @@ int main(int argc, char* argv[])
    printf("%s\n", Buffer);        /* Print the device identification         */
 
 
-   ibwrt(Device, "*RST", 5);     
-   ibwrt(Device, "*CLS", 5);     
-   ibwrt(Device, ":SOUR:FUNC VOLT", 15);     
-   ibwrt(Device, ":SOUR:VOLT:MODE FIXED", 21);     
-   ibwrt(Device, ":SOUR:VOLT:LEV 0", 16);
-   ibwrt(Device, ":SENS:CURR:PROT 150E-6", 22);
-   ibwrt(Device, ":SENS:FUNC 'CURR'", 17);
-   ibwrt(Device, ":FORM:ELEM CURR", 15);
-   ibwrt(Device, ":TRIG:COUN 1", 12);
+   //ibwrt(Device, "*RST", 5);     
+   //ibwrt(Device, "*CLS", 5);     
+   //ibwrt(Device, ":SOUR:FUNC VOLT", 15);     
+   //ibwrt(Device, ":SOUR:VOLT:MODE FIXED", 21);     
+   //ibwrt(Device, ":SOUR:VOLT:LEV 0", 16);
+   //ibwrt(Device, ":SENS:CURR:PROT 150E-6", 22);
+   //ibwrt(Device, ":SENS:FUNC 'CURR'", 17);
+   //ibwrt(Device, ":FORM:ELEM CURR", 15);
+   //ibwrt(Device, ":TRIG:COUN 1", 12);
 
-
-
+   kdevice.write("*RST");
+   kdevice.write("*CLS");
+   kdevice.write(":SOUR:FUNC VOLT");     
+   kdevice.write(":SOUR:VOLT:MODE FIXED");     
+   kdevice.write(":SOUR:VOLT:LEV 0");
+   kdevice.write(":SENS:CURR:PROT 150E-6");
+   kdevice.write(":SENS:FUNC 'CURR'");
+   kdevice.write(":FORM:ELEM CURR");
+   kdevice.write(":TRIG:COUN 1");
 
 	/*-- Create the new window --*/
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
