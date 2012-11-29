@@ -249,11 +249,11 @@ static void button_clicked3()
 
 static void button_clicked4() {
 	// Function for the 'test' button
-	// Mapped to the pulsevoltagesweep function
+	// Mapped to the current_pulse_sweep function
 
-	kdevice.pulsesweepvoltage(0,10,100);
+	kdevice.current_pulse_sweep(0,10,100, "C:\\");
 
-	cout << "button 4 pressed, and function (hopefully) executed.";
+	cout << "button 4 pressed, and function (hopefully) executed." << endl;
 }
 
 static void setvoltage()

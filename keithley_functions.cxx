@@ -4,6 +4,7 @@
 #include <time.h>
 #include <iomanip>
 #include <string>
+#include <sstream>
 #include <iostream>
 #include <fstream>
 #include "windows.h"
@@ -58,6 +59,34 @@ void KeithleyDevice::pulsesweepvoltage(double bottom, double top, int no_of_step
 
 	// Should be pretty useful to exit the function with an error code at some point.
 	//return 0;
+}
+
+void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_steps, char * filedir) {
+	 time_t rawtime;
+	 struct tm * timeinfo;
+
+	 time(&rawtime);
+	 timeinfo = localtime(&rawtime);
+
+	 // This adds the [current time].txt to the end of the filename
+	 char filename[2048];
+	 strcpy(filename, filedir);
+
+	 string eofnamestring;
+	 ostringstream eofname;
+	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".txt";
+	 eofnamestring = eofname.str();
+	 strcat(filename, eofnamestring.c_str());
+	 cout << "Outputting to file " << filename << endl;
+	
+	// Function to sweep current pulses
+	cout << "Activated pulse voltage" << endl;
+	cout << "This function sweeps with a pulsing voltage" << endl;
+	cout << "Lowest current " << bottom << " A" << endl;
+	cout << "Highest current " << top << " A" << endl;
+	cout << "Number of steps " << no_of_steps << endl;
+
+	//for(
 }
 
 void KeithleyDevice::rampvoltagedown(int start, int end) {
