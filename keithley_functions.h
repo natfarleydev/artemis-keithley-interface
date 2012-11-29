@@ -6,7 +6,7 @@ using namespace std;
 class KeithleyDevice {
 public:
 	void pulsesweepvoltage(double,double,int);
-	void current_pulse_sweep(double,double,int,char *);
+	void voltage_pulse_sweep(double,double,int,char *);
 	void rampvoltagedown(int,int);
 	void rampvoltageup(int,int);
 	int write(const char *);

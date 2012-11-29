@@ -251,7 +251,7 @@ static void button_clicked4() {
 	// Function for the 'test' button
 	// Mapped to the current_pulse_sweep function
 
-	kdevice.current_pulse_sweep(0,10,100, "C:\\Users\\manager\\Documents\\");
+	kdevice.voltage_pulse_sweep(0,10,100, "C:\\Users\\manager\\Documents\\");
 
 	cout << "button 4 pressed, and function (hopefully) executed." << endl;
 }

@@ -61,7 +61,7 @@ void KeithleyDevice::pulsesweepvoltage(double bottom, double top, int no_of_step
 	//return 0;
 }
 
-void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_steps, char * filedir) {
+void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_steps, char * filedir) {
 	 time_t rawtime;
 	 struct tm * timeinfo;
 
@@ -92,11 +92,29 @@ void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_st
 	// Function to sweep current pulses
 	cout << "Activated pulse voltage" << endl;
 	cout << "This function sweeps with a pulsing voltage" << endl;
-	cout << "Lowest current " << bottom << " A" << endl;
-	cout << "Highest current " << top << " A" << endl;
+	cout << "Lowest voltage" << bottom << " V" << endl;
+	cout << "Highest voltage" << top << " V" << endl;
 	cout << "Number of steps " << no_of_steps << endl;
 
-	
+	for(int i=0; i<=no_of_steps; i++) {
+		// Set up the voltage
+		double tempvolt = bottom + (double)i * ( (top - bottom)/((double)no_of_steps) );
+
+		char tempbuff[100];
+		cout << "voltage to set = " << tempvolt << endl;
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
+		strcat(stringinput,itoa(tempvolt,tempbuff,10));
+		printf("command: %s\n",stringinput);
+		//ibwrt(this->Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		this->write(stringinput);
+		Sleep(10);
+		// TODO Send the output to a file HERE
+		strcpy(stringinput,":SOUR:VOLT:LEV:AMPL 0");
+		ibwrt(Device, stringinput, strlen(stringinput));
+		Sleep(10);
+
+		cout << "Pulsed " << tempvolt << " A." << endl;
+	}
 
 	outfile.close();
 	if(outfile.is_open()) {
