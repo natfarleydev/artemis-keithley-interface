@@ -77,8 +77,18 @@ void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_st
 	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".txt";
 	 eofnamestring = eofname.str();
 	 strcat(filename, eofnamestring.c_str());
-	 cout << "Outputting to file " << filename << endl;
-	
+
+	 ofstream outfile;
+
+	 outfile.open(filename);
+
+	 if(outfile.is_open()) {
+		cout << "Outputting to file " << filename << endl;
+	 }
+	 else {
+		 cout << "Error opening " << filename << ". Will pulse anyway..." << endl;
+	 }
+
 	// Function to sweep current pulses
 	cout << "Activated pulse voltage" << endl;
 	cout << "This function sweeps with a pulsing voltage" << endl;
@@ -86,7 +96,15 @@ void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_st
 	cout << "Highest current " << top << " A" << endl;
 	cout << "Number of steps " << no_of_steps << endl;
 
-	//for(
+	
+
+	outfile.close();
+	if(outfile.is_open()) {
+		cout << filename << " closed." << endl;
+	}
+	else {
+		cout << filename << " is still open! Whoops!" << endl;
+	}
 }
 
 void KeithleyDevice::rampvoltagedown(int start, int end) {
