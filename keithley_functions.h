@@ -13,6 +13,8 @@ public:
 	int read(void *,int);
 	int close_connection();
 	int clear();
+	void cls();
+	void rst();
 	KeithleyDevice();
 private:
  
