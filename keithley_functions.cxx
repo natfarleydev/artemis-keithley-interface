@@ -97,6 +97,7 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 	cout << "Number of steps " << no_of_steps << endl;
 	char Buffer[1000];
 	//for(int i=0; i<=no_of_steps; i++) {
+		// TODO set up this for loop for our IV curve.
 		// Set up the voltage
 		//double tempvolt = bottom + (double)i * ( (top - bottom)/((double)no_of_steps) );
 
@@ -107,47 +108,34 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 		//printf("command: %s\n",stringinput);
 		////ibwrt(this->Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
 		//this->write(stringinput);
-		//+   ibwrt(Device, "*RST", 5);     /* Send the identification query command   */
-//+   ibwrt(Device, ":SYST:BEEP:STAT OFF", 19);
-//+   ibwrt(Device, ":SENS:FUNC:CONC OFF", 19);    
-//+   ibwrt(Device, ":SOUR:FUNC CURR", 15);     
-//+   ibwrt(Device, ":SENS:FUNC 'VOLT:DC'", 20);
 		this->cls();
 		this->rst();
 		this->write(":SYST:BEEP:STAT OFF");
 		this->write(":SENS:FUNC:CONC OFF");
 		this->write(":SOUR:FUNC CURR");
 		this->write(":SENS:FUNC 'VOLT:DC'");
-		this->write(":SENS:VOLT:RANGE AUTO");
-		//+   ibwrt(Device, ":SENS:VOLT:PROT 100", 19);     
-//+   ibwrt(Device, ":SOUR:CURR:MODE LIST", 20);     
-//+   ibwrt(Device, ":SOUR:LIST:CURR 0.001,0.001,0.001,0.0", 37);    
-//+   ibwrt(Device, ":TRIG:COUN 4", 12); 
-//+   ibwrt(Device, ":SOUR:DEL 0.01", 13);  
-//+   ibwrt(Device, ":ROUT:TERM FRONT", 15); 
-//+   ibwrt(Device, ":OUTP ON", 8);   
-//+   ibwrt(Device, ":READ?", 6);     
-//+
-//+   ibrd(Device, Buffer, 1000);    
-		this->write(":SENSE:VOLT:PROT 100");
+		this->write(":SENS:VOLT:RANGE:AUTO ON");
+		this->write(":SENSE:VOLT:PROT 100"); //voltage protection level
 		this->write(":SOUR:CURR:MODE LIST");
 		this->write(":SOUR:LIST:CURR 0.001,0.001,0.001,0.0");
 		this->write(":TRIG:COUN 4");
-		this->write(":SOUR DEL 0.01");
-		this->write(":ROUT:TERM REAR");
+		this->write(":SOUR:DEL 0.01");
+		this->write(":ROUT:TERM FRONT");
 		this->write(":OUTP ON");
 		this->write(":READ?");
-
+		
 		this->read(Buffer,1000);
+		Buffer[ibcnt] = '\0'; //end the buffer so we don't pick up faff from Keithley.
+
 
 		//+	outputfile1 << gtim << "\t" << Buffer;
 		outfile << Buffer;
-		//Sleep(10);
+		Sleep(10);
 		//// TODO Send the output to a file HERE
 		//strcpy(stringinput,":SOUR:VOLT:LEV:AMPL 0");
 		//ibwrt(Device, stringinput, strlen(stringinput));
 		//Sleep(10);
-
+		this->write(":OUTP OFF");
 		cout << "Made it do that thing. Yeah. " << endl;
 
 //		+   ibwrt(Device, "*CLS", 5);     /* Send the identification query command   */
@@ -283,7 +271,7 @@ int KeithleyDevice::write(const char * c) {
 	strcpy(stringinput,c);
 	ibwrt(Device,stringinput,strlen(stringinput));
 	cout << "string " << c << " hopefully written to device!";
-
+	//Sleep(10);
 	return 0;
 	//strcpy(stringinput
 }
