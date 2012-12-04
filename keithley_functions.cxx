@@ -61,7 +61,7 @@ void KeithleyDevice::pulsesweepvoltage(double bottom, double top, int no_of_step
 	//return 0;
 }
 
-void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_steps, char * filedir) {
+void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_steps, char * filedir) {
 	 time_t rawtime;
 	 struct tm * timeinfo;
 
@@ -74,13 +74,13 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 
 	 string eofnamestring;
 	 ostringstream eofname;
-	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".txt";
+	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".csv";
 	 eofnamestring = eofname.str();
 	 strcat(filename, eofnamestring.c_str());
 
 	 ofstream outfile;
 
-	 outfile.open(filename);
+	 outfile.open(filename, ios::app);
 
 	 if(outfile.is_open()) {
 		cout << "Outputting to file " << filename << endl;
@@ -96,7 +96,11 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 	cout << "Highest voltage" << top << " V" << endl;
 	cout << "Number of steps " << no_of_steps << endl;
 	char Buffer[1000];
-	//for(int i=0; i<=no_of_steps; i++) {
+	for(int i=0; i<=no_of_steps; i++) {
+		ostringstream tempcurrstream;
+		string tempcurrstring;
+
+		double tempcurr = bottom + (double)i * ( (top - bottom)/(double)no_of_steps );
 		// TODO set up this for loop for our IV curve.
 		// Set up the voltage
 		//double tempvolt = bottom + (double)i * ( (top - bottom)/((double)no_of_steps) );
@@ -115,9 +119,14 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 		this->write(":SOUR:FUNC CURR");
 		this->write(":SENS:FUNC 'VOLT:DC'");
 		this->write(":SENS:VOLT:RANGE:AUTO ON");
-		this->write(":SENSE:VOLT:PROT 100"); //voltage protection level
+		this->write(":SENS:VOLT:PROT 200"); //voltage protection level
 		this->write(":SOUR:CURR:MODE LIST");
-		this->write(":SOUR:LIST:CURR 0.001,0.001,0.001,0.0");
+		this->write(":SENS:VOLT:DC:RANG 100");
+		tempcurrstream << ":SOUR:LIST:CURR " << tempcurr << "," << tempcurr << "," << tempcurr << ",0.0";
+		tempcurrstring = tempcurrstream.str();
+		strcpy(stringinput,tempcurrstring.c_str());
+		this->write(stringinput);
+		//this->write(":SOUR:LIST:CURR 0.001,0.001,0.001,0.0");
 		this->write(":TRIG:COUN 4");
 		this->write(":SOUR:DEL 0.01");
 		this->write(":ROUT:TERM FRONT");
@@ -131,96 +140,10 @@ void KeithleyDevice::voltage_pulse_sweep(double bottom, double top, int no_of_st
 		//+	outputfile1 << gtim << "\t" << Buffer;
 		outfile << Buffer;
 		Sleep(10);
-		//// TODO Send the output to a file HERE
-		//strcpy(stringinput,":SOUR:VOLT:LEV:AMPL 0");
-		//ibwrt(Device, stringinput, strlen(stringinput));
-		//Sleep(10);
 		this->write(":OUTP OFF");
 		cout << "Made it do that thing. Yeah. " << endl;
 
-//		+   ibwrt(Device, "*CLS", 5);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":SOUR:FUNC VOLT", 15);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":SOUR:VOLT:MODE FIXED", 21);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":SOUR:VOLT:LEV 0", 16);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":SENS:CURR:PROT 150E-6", 22);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":SENS:FUNC 'CURR'", 17);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":FORM:ELEM CURR", 15);     /* Send the identification query command   */
-//+   //ibwrt(Device, "*RST", 5);     /* Send the identification query command   */
-//+   //ibwrt(Device, ":TRIG:COUN 1", 12);     /* Send the identification query command   */
-//+
-//+   ibwrt(Device, "*RST", 5);     /* Send the identification query command   */
-//+   ibwrt(Device, ":SYST:BEEP:STAT OFF", 19);
-//+   ibwrt(Device, ":SENS:FUNC:CONC OFF", 19);    
-//+   ibwrt(Device, ":SOUR:FUNC CURR", 15);     
-//+   ibwrt(Device, ":SENS:FUNC 'VOLT:DC'", 20);
-//+   //ibwrt(Device, ":SENS:VOLT:RANG 200", 19);
-//+   ibwrt(Device, ":SENS:VOLT:RANG:AUTO", 20);
-//+   ibwrt(Device, ":SENS:VOLT:PROT 100", 19);     
-//+   ibwrt(Device, ":SOUR:CURR:MODE LIST", 20);     
-//+   ibwrt(Device, ":SOUR:LIST:CURR 0.001,0.001,0.001,0.0", 37);    
-//+   ibwrt(Device, ":TRIG:COUN 4", 12); 
-//+   ibwrt(Device, ":SOUR:DEL 0.01", 13);  
-//+   ibwrt(Device, ":ROUT:TERM FRONT", 15); 
-//+   ibwrt(Device, ":OUTP ON", 8);   
-//+   ibwrt(Device, ":READ?", 6);     
-//+
-//+   ibrd(Device, Buffer, 1000);     /* Read up to 100 bytes from the device    */
-//+ 	if (Ibsta() & ERR) {
-//+		GpibError("ibrd Error");	
-//+		}
-//+		Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
-//+		printf("HERE WHAT WE READ\n");
-//+		printf("%s\n", Buffer);        /* Print the device identification         */
-//+		printf("HERE WHAT WE READ (FINISHED)\n");
-//+
-//+
-//+
-//+	time_t now = time(0);
-//+	char *gtim = g_strdup(ctime(&now));
-//+	tm *ptm = localtime(&now);
-//+//	char *timebuffer = '0';
-//+	sprintf(gtim,"%02d:%02d:%02d %02d:%02d:%04d",ptm->tm_hour,ptm->tm_min,ptm->tm_sec,ptm->tm_mday,(ptm->tm_mon)+1,(ptm->tm_year)+1900);
-//+	cout << "time " << gtim << endl;
-//+
-//+
-//+	strcpy(stringinput,":OUTP OFF");
-//+	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
-//+
-//+    outputfile1.open("test1.txt",ios::app);
-//+	outputfile1 << gtim << "\t" << Buffer;
-//+	outputfile1.close();
-//+
-//+// SECOND PIN
-//+
-//+
-//+   ibwrt(Device, ":ROUT:TERM REAR", 15); 
-//+   ibwrt(Device, ":OUTP ON", 8);   
-//+   ibwrt(Device, ":READ?", 6);     
-//+
-//+   ibrd(Device, Buffer, 1000);     /* Read up to 100 bytes from the device    */
-//+ 	if (Ibsta() & ERR) {
-//+		GpibError("ibrd Error");	
-//+		}
-//+		Buffer[Ibcnt()] = '\0';        /* Null terminate the ASCII string         */
-//+		printf("HERE WHAT WE READ\n");
-//+		printf("%s\n", Buffer);        /* Print the device identification         */
-//+		printf("HERE WHAT WE READ (FINISHED)\n");
-//+
-//+
-//+	strcpy(stringinput,":OUTP OFF");
-//+	ibwrt(Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
-//+
-//+    outputfile2.open("test2.txt",ios::app);
-//+	outputfile2 << gtim << "\t" << Buffer;
-//+	outputfile2.close();
-//+
-//+
-//+
-//+  /*-- Return 0 if exit is successful --*/
-//+  return 0;
-//+
-
-	//}
+	}
 
 	outfile.close();
 	if(outfile.is_open()) {
