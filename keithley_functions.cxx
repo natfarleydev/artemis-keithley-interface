@@ -154,6 +154,101 @@ void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_st
 	}
 }
 
+
+void KeithleyDevice::forward_voltage_measurement(double i_value, char * filedir) {
+	// This function is designed to take the forward voltage at a value i_value A.
+	 time_t rawtime;
+	 struct tm * timeinfo;
+
+	 time(&rawtime);
+	 timeinfo = localtime(&rawtime);
+
+	 // This adds the file directory to the filename
+	 char filename[2048];
+	 strcpy(filename, filedir);
+
+	 // TODO change to something more sensible
+	 string eofnamestring;
+	 ostringstream eofname;
+	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".csv";
+	 eofnamestring = eofname.str();
+	 strcat(filename, eofnamestring.c_str());
+
+	 ofstream outfile;
+
+	 // add to the end of the file.
+	 outfile.open(filename, ios::app);
+
+	 if(outfile.is_open()) {
+		cout << "Outputting to file " << filename << endl;
+	 }
+	 else {
+		 cout << "Error opening " << filename << ". Will pulse anyway..." << endl;
+	 }
+
+	// Function to sweep current pulses
+	cout << "Activated pulse voltage" << endl;
+	cout << "This function sweeps with a pulsing voltage" << endl;
+	cout << "Target current " << i_value << " A" << endl;
+
+	char Buffer[1000];
+	//for(int i=0; i<=no_of_steps; i++) {
+		ostringstream tempcurrstream;
+		string tempcurrstring;
+
+		//double tempcurr = bottom + (double)i * ( (top - bottom)/(double)no_of_steps );
+		// TODO set up this for loop for our IV curve.
+		// Set up the voltage
+		//double tempvolt = bottom + (double)i * ( (top - bottom)/((double)no_of_steps) );
+
+		//char tempbuff[100];
+		//cout << "voltage to set = " << tempvolt << endl;
+		//strcpy(stringinput,":SOUR:VOLT:LEV:AMPL ");
+		//strcat(stringinput,itoa(tempvolt,tempbuff,10));
+		//printf("command: %s\n",stringinput);
+		////ibwrt(this->Device,stringinput, strlen(stringinput));     /* Send the identification query command   */
+		//this->write(stringinput);
+		this->cls();
+		this->rst();
+		this->write(":SYST:BEEP:STAT OFF");
+		this->write(":SENS:FUNC:CONC OFF");
+		this->write(":SOUR:FUNC CURR");
+		this->write(":SENS:FUNC 'VOLT:DC'");
+		this->write(":SENS:VOLT:RANGE:AUTO ON");
+		this->write(":SENS:VOLT:PROT 200"); //voltage protection level
+		this->write(":SOUR:CURR:MODE LIST"); // Set the source mode to list
+		this->write(":SENS:VOLT:DC:RANG 100");
+		tempcurrstream << ":SOUR:LIST:CURR " << i_value << "," << i_value << "," << i_value << ",0.0"; // List the measurements to take.
+		tempcurrstring = tempcurrstream.str();
+		strcpy(stringinput,tempcurrstring.c_str());
+		this->write(stringinput);
+		//this->write(":SOUR:LIST:CURR 0.001,0.001,0.001,0.0"); // That's what the previous 4 lines do if i_value == 0.001
+		this->write(":TRIG:COUN 4");
+		this->write(":SOUR:DEL 0.01");
+		this->write(":ROUT:TERM FRONT");
+		this->write(":OUTP ON");
+		this->write(":READ?");
+		
+		this->read(Buffer,1000);
+		Buffer[ibcnt] = '\0'; //end the buffer so we don't pick up faff from Keithley.
+
+
+		//+	outputfile1 << gtim << "\t" << Buffer;
+		outfile << Buffer;
+		Sleep(10);
+		this->write(":OUTP OFF");
+		cout << "Hopefully measured forward voltage at " << i_value << " A" << endl;
+
+	//}
+
+	outfile.close();
+	if(outfile.is_open()) {
+		cout << filename << " closed." << endl;
+	}
+	else {
+		cout << filename << " is still open! Whoops!" << endl;
+	}
+}
 void KeithleyDevice::rampvoltagedown(int start, int end) {
 	printf("IN RAMP DOWN\n");
 	printf("Start Voltage %i\n",start);
@@ -193,7 +288,7 @@ void KeithleyDevice::rampvoltageup(int start, int end)
 int KeithleyDevice::write(const char * c) {
 	strcpy(stringinput,c);
 	ibwrt(Device,stringinput,strlen(stringinput));
-	cout << "string " << c << " hopefully written to device!";
+	cout << "string " << c << " hopefully written to device!" << endl;
 	//Sleep(10);
 	return 0;
 	//strcpy(stringinput
