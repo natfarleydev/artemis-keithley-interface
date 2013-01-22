@@ -249,6 +249,7 @@ void KeithleyDevice::forward_voltage_measurement(double i_value, char * filedir)
 		cout << filename << " is still open! Whoops!" << endl;
 	}
 }
+
 void KeithleyDevice::rampvoltagedown(int start, int end) {
 	printf("IN RAMP DOWN\n");
 	printf("Start Voltage %i\n",start);

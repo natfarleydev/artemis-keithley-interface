@@ -19,6 +19,7 @@ private:
 
 	//Signal handlers:
 	void on_button_clicked(Glib::ustring data);
+	void on_button1_clicked(Glib::ustring data);
 
 	void on_menu_file_new_generic();
 	void on_menu_file_quit();

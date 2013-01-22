@@ -109,7 +109,7 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 
 	//Now when the button is clicked, we call the "on_button_clicked" function
 	//with a pointer to "button 1" as its argument
 	m_button1.signal_clicked().connect(sigc::bind<Glib::ustring>(
-		sigc::mem_fun(*this, &HelloWorld::on_button_clicked), "button 1"));
+		sigc::mem_fun(*this, &HelloWorld::on_button1_clicked), "button 1 "));
 
 	//instead of gtk_container_add, we pack this button into the invisible
 	//box, which has been packind into the window.
@@ -164,6 +164,17 @@ void HelloWorld::on_menu_others()
 void HelloWorld::on_button_clicked(Glib::ustring data)
 {
 	std::cout <<"Hello World -" << data << "was pressed" << std::endl;
+}
+
+void HelloWorld::on_button1_clicked(Glib::ustring data)
+{
+	std::cout <<"Hello World -" << data << "was pressed" << std::endl;
+
+	cout << "Also, try to measure voltage at 1 mA" << endl;
+
+	kdevice.forward_voltage_measurement(0.001, "C:\\Users\\manager\\Documents\\");
+
+	cout << "End of measurement" << endl;
 }
 
 void HelloWorld::on_menu_file_open_clicked() {
