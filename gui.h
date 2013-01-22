@@ -17,6 +17,9 @@ private:
 	// The Keithley device
 	KeithleyDevice kdevice;
 
+	// The file name
+	string filename;
+
 	//Signal handlers:
 	void on_button_clicked(Glib::ustring data);
 	void on_button1_clicked(Glib::ustring data);
@@ -28,8 +31,9 @@ private:
 	void on_menu_choices_one();
 	void on_menu_choices_two();
 
+	void on_menu_file_new_clicked();
 	void on_menu_file_open_clicked();
-	void on_menu_file_save_clicked();
+	//void on_menu_file_save_clicked();
 	void on_menu_help_about_clicked();
 
 	//Member widgets:

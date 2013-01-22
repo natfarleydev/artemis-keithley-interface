@@ -1,6 +1,7 @@
 #include "gui.h"
 #include <gtkmm/stock.h>
 #include <iostream>
+#include <fstream>
 #include <cstdio>
 
 HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 0.0), // for the spinbutton
@@ -25,11 +26,11 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 
 	m_refActionGroup->add(Gtk::Action::create("FileMenu", "File"));
 
 	m_refActionGroup->add(Gtk::Action::create("FileNew", Gtk::Stock::NEW),
-		sigc::mem_fun(*this, &HelloWorld::on_menu_file_new_generic));
+		sigc::mem_fun(*this, &HelloWorld::on_menu_file_new_clicked));
 	m_refActionGroup->add(Gtk::Action::create("FileOpen", Gtk::Stock::OPEN),
 		sigc::mem_fun(*this, &HelloWorld::on_menu_file_open_clicked));
 	m_refActionGroup->add(Gtk::Action::create("FileSave", Gtk::Stock::SAVE),
-		sigc::mem_fun(*this, &HelloWorld::on_menu_file_save_clicked));
+		sigc::mem_fun(*this, &HelloWorld::on_menu_file_new_clicked));
 	m_refActionGroup->add(Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
 		sigc::mem_fun(*this, &HelloWorld::on_menu_file_quit));
 
@@ -172,11 +173,69 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 
 	cout << "Also, try to measure voltage at 1 mA" << endl;
 
-	kdevice.forward_voltage_measurement(0.001, "C:\\Users\\manager\\Documents\\");
+	// Opening file for read in
+	ofstream outfile;
+
+	outfile.open(filename.c_str(), ios::app);
+
+	if(outfile.is_open()) {
+		cout << "Outputting to file";
+	} else{
+	Gtk::MessageDialog dialog(*this, "Problems outputting to the file; measurement will not be recorded",
+		false, Gtk::MESSAGE_ERROR,
+		Gtk::BUTTONS_CLOSE);
+	}
+
+	// this will include a fluence measurement from a GUI box,
+	// and an input for the current at some point. TODO that.
+	outfile << kdevice.forward_voltage_measurement(0.001) << endl;
+
+	outfile.close();
+	if(outfile.is_open()){
+		cout << "Problems closing file, oh well!" << endl;
+		cout << "File left open" << endl;
+	} else {
+		cout << "File closed" << endl;
+	}
 
 	cout << "End of measurement" << endl;
 }
 
+//void HelloWorld::on_menu_file_new_clicked()
+//
+//{
+//	Gtk::FileSelection dialog("File name: ",
+//		Gtk::FILE_CHOOSER_ACTION_); //maybe wrong, not quite sure, check this
+//	dialog.set_transient_for(*this);
+//
+//	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+//	dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+//
+//	int result = dialog.run();
+//
+//	switch(result)
+//	{
+//		case(Gtk::RESPONSE_OK): 
+//		{
+//			std::cout << "New clicked." << std::endl;
+//
+//			std::string filename = dialog.get_filename();
+//			std::cout << "New file named: " << filename <<std::endl;
+//			break;
+//		}
+//		case(Gtk::RESPONSE_CANCEL):
+//		{
+//			std::cout << "Cancel clicked." << std::endl;
+//			break;
+//		}
+//		default:
+//		{
+//			std::cout << "Unknown button clicked!" << std::endl;
+//			break;
+//		}
+//
+//	}
+//}
 void HelloWorld::on_menu_file_open_clicked() {
 
 	Gtk::FileChooserDialog dialog("Please choose file",
@@ -238,7 +297,7 @@ void HelloWorld::on_menu_file_open_clicked() {
 
 }
 
-void HelloWorld::on_menu_file_save_clicked() {
+void HelloWorld::on_menu_file_new_clicked() {
 
 	Gtk::FileChooserDialog dialog("Please choose a file name",
 		Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -254,9 +313,8 @@ void HelloWorld::on_menu_file_save_clicked() {
 		case(Gtk::RESPONSE_OK): {
 
 			std::cout << "Save clicked." << std::endl;
-
-			std::string filename = dialog.get_filename();
-			std::cout << "File saved as: " << filename << std::endl;
+			filename = dialog.get_filename();
+			std::cout << "File prepared as: " << filename << std::endl;
 			break;
 
 		}

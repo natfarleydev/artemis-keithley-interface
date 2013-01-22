@@ -15,7 +15,7 @@ public:
 	void current_pulse_sweep(double,double,int,char *);
 	void rampvoltagedown(int,int);
 	void rampvoltageup(int,int);
-	void forward_voltage_measurement(double,char *);
+	string forward_voltage_measurement(double);
 	int write(const char *);
 	int read(void *,int);
 	int close_connection();

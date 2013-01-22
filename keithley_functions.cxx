@@ -155,40 +155,40 @@ void KeithleyDevice::current_pulse_sweep(double bottom, double top, int no_of_st
 }
 
 
-void KeithleyDevice::forward_voltage_measurement(double i_value, char * filedir) {
+string KeithleyDevice::forward_voltage_measurement(double i_value) {
 	// This function is designed to take the forward voltage at a value i_value A.
-	 time_t rawtime;
-	 struct tm * timeinfo;
+	 //time_t rawtime;
+	 //struct tm * timeinfo;
 
-	 time(&rawtime);
-	 timeinfo = localtime(&rawtime);
+	 //time(&rawtime);
+	 //timeinfo = localtime(&rawtime);
 
-	 // This adds the file directory to the filename
-	 char filename[2048];
-	 strcpy(filename, filedir);
+	 //// This adds the file directory to the filename
+	 //char filename[2048];
+	 //strcpy(filename, filedir);
 
-	 // TODO change to something more sensible
-	 string eofnamestring;
-	 ostringstream eofname;
-	 eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".csv";
-	 eofnamestring = eofname.str();
-	 strcat(filename, eofnamestring.c_str());
+	 //// TODO change to something more sensible
+	 //string eofnamestring;
+	 //ostringstream eofname;
+	 //eofname << timeinfo->tm_hour << timeinfo->tm_min << timeinfo->tm_sec << ".csv";
+	 //eofnamestring = eofname.str();
+	 //strcat(filename, eofnamestring.c_str());
 
-	 ofstream outfile;
+	 //ofstream outfile;
 
-	 // add to the end of the file.
-	 outfile.open(filename, ios::app);
+	 //// add to the end of the file.
+	 //outfile.open(filename, ios::app);
 
-	 if(outfile.is_open()) {
-		cout << "Outputting to file " << filename << endl;
-	 }
-	 else {
-		 cout << "Error opening " << filename << ". Will pulse anyway..." << endl;
-	 }
+	 //if(outfile.is_open()) {
+		//cout << "Outputting to file " << filename << endl;
+	 //}
+	 //else {
+		// cout << "Error opening " << filename << ". Will pulse anyway..." << endl;
+	 //}
 
 	// Function to sweep current pulses
 	cout << "Activated pulse voltage" << endl;
-	cout << "This function sweeps with a pulsing voltage" << endl;
+	cout << "This function get the forward voltage" << endl;
 	cout << "Target current " << i_value << " A" << endl;
 
 	char Buffer[1000];
@@ -234,20 +234,21 @@ void KeithleyDevice::forward_voltage_measurement(double i_value, char * filedir)
 
 
 		//+	outputfile1 << gtim << "\t" << Buffer;
-		outfile << Buffer;
+		string temp;
+		temp = Buffer;
 		Sleep(10);
 		this->write(":OUTP OFF");
 		cout << "Hopefully measured forward voltage at " << i_value << " A" << endl;
-
+		return temp;
 	//}
 
-	outfile.close();
-	if(outfile.is_open()) {
-		cout << filename << " closed." << endl;
-	}
-	else {
-		cout << filename << " is still open! Whoops!" << endl;
-	}
+	//outfile.close();
+	//if(outfile.is_open()) {
+	//	cout << filename << " closed." << endl;
+	//}
+	//else {
+	//	cout << filename << " is still open! Whoops!" << endl;
+	//}
 }
 
 void KeithleyDevice::rampvoltagedown(int start, int end) {
