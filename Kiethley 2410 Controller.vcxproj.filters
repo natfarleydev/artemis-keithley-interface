@@ -21,12 +21,18 @@
     <ClCompile Include="keithley_functions.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="helloworld.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Program Files (x86)\Keithley Instruments\KI-488\include\GPIB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="keithley_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helloworld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
