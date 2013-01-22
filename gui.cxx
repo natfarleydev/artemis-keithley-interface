@@ -136,6 +136,11 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 
 
 	show_all_children();
 
+	// And finally make a keithley device to interact with.
+	// Future iterations of this program may use this point to choose the 
+	// settings for which Keithley device to use
+
+	KeithleyDevice kdevice=KeithleyDevice();
 }
 
 HelloWorld::~HelloWorld() {}

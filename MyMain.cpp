@@ -16,9 +16,6 @@ using namespace std;
 // TODO, global variable, replace with something else.
 time_t startingtime;
 
-	// Keithley Device
-	KeithleyDevice kdevice=KeithleyDevice();
-
 int main (int argc, char *argv[]) {
 
 	Gtk::Main kit(argc, argv);

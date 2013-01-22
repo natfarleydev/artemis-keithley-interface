@@ -14,7 +14,8 @@ public:
 
 private:
 
-
+	// The Keithley device
+	KeithleyDevice kdevice;
 
 	//Signal handlers:
 	void on_button_clicked(Glib::ustring data);
