@@ -1,4 +1,4 @@
-#include "helloworld.h"
+#include "gui.h"
 #include <gtkmm/main.h>
 #include "GPIB.h"
 #include <iostream>
@@ -11,19 +11,13 @@
 #include "windows.h"
 #include "keithley_functions.h"
 
-#define EARM  22  // The ibnotify Callback failed to rearm
-#define EHDL  23  // The input handle is invalid
-#define EWIP  26  // Wait already in progress on input ud
-#define ERST  27  // The event notification was cancelled due to a reset of the interface
-#define EPWR  28  // The system or board has lost power or gone to standby
-
 using namespace std;
 
 // TODO, global variable, replace with something else.
 time_t startingtime;
 
-// TODO also a global variable, but not an obvious way around it. Yet.
-KeithleyDevice kdevice=KeithleyDevice();
+	// Keithley Device
+	KeithleyDevice kdevice=KeithleyDevice();
 
 int main (int argc, char *argv[]) {
 

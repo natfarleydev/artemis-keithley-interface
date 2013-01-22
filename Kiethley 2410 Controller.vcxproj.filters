@@ -21,7 +21,7 @@
     <ClCompile Include="keithley_functions.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="helloworld.cxx">
+    <ClCompile Include="gui.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="keithley_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="helloworld.h">
+    <ClInclude Include="gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

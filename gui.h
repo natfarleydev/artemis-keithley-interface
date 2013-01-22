@@ -2,6 +2,7 @@
 #define GTKMM_HELLOWORLD_H
 
 #include <gtkmm.h>
+#include "keithley_functions.h"
 
 class HelloWorld : public Gtk::Window	{
 
@@ -12,6 +13,8 @@ public:
 	virtual ~HelloWorld();
 
 private:
+
+
 
 	//Signal handlers:
 	void on_button_clicked(Glib::ustring data);

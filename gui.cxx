@@ -1,9 +1,9 @@
-#include "helloworld.h"
+#include "gui.h"
 #include <gtkmm/stock.h>
 #include <iostream>
 #include <cstdio>
 
-HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 0.0),
+HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 0.0), // for the spinbutton
 	m_spinbutton_amp(m_adjustment_amp),
 	m_table(5, 2, true),
 	m_button1("Button 1"),
