@@ -1,5 +1,5 @@
-#ifndef GTKMM_HELLOWORLD_H
-#define GTKMM_HELLOWORLD_H
+#ifndef GTKMM_GUI_H
+#define GTKMM_GUI_H
 
 #include <gtkmm.h>
 #include "keithley_functions.h"
@@ -12,7 +12,7 @@ public:
 
 	virtual ~HelloWorld();
 
-private:
+protected:
 
 	// The Keithley device
 	KeithleyDevice kdevice;
@@ -47,9 +47,15 @@ private:
 
 	Gtk::Adjustment m_adjustment_amp;
 	Gtk::SpinButton m_spinbutton_amp;
+	Gtk::Adjustment m_adjustment_fluence;
+	Gtk::SpinButton m_spinbutton_fluence;
+	Gtk::Adjustment m_adjustment_fluence_exp;
+	Gtk::SpinButton m_spinbutton_fluence_exp;
 
 	Gtk::Frame m_frame_currentpulse;
 	Gtk::Label m_label_currentpulse;
+	Gtk::Frame m_frame_currentfile;
+	Gtk::Label m_label_currentfile;
 
 	Gtk::VButtonBox m_buttonbox;
 

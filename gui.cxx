@@ -4,13 +4,19 @@
 #include <fstream>
 #include <cstdio>
 
-HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 0.0), // for the spinbutton
+HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001, 0.0), // for the spinbutton
 	m_spinbutton_amp(m_adjustment_amp),
+	m_adjustment_fluence(0.0,0.0,10.0,0.01,0.1,0.0),
+	m_spinbutton_fluence(m_adjustment_fluence),
+	m_adjustment_fluence_exp(0.0,0.0,40.0),
+	m_spinbutton_fluence_exp(m_adjustment_fluence_exp),
 	m_table(5, 2, true),
 	m_button1("Button 1"),
 	m_button2("Button 2"),
 	m_frame_currentpulse("Current Pulse"),
-	m_label_currentpulse("Use these options to configure\n1 mA pulsed current mode")
+	m_label_currentpulse("Use these options to configure\n1 mA pulsed current mode"),
+	m_frame_currentfile("Current File"),
+	m_label_currentfile("Not Selected")
 	{ 
 
 	set_title("ARTEMIS - A Remote Terminal ExperiMent Interface System");
@@ -131,6 +137,19 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.000001, 0.0001, 
 	m_frame_currentpulse.add(m_label_currentpulse);
 	m_table.attach(m_frame_currentpulse, 0, 1, 0, 1, Gtk::EXPAND, Gtk::EXPAND, 0, 15);
 
+	m_frame_currentfile.add(m_label_currentfile);
+	m_table.attach(m_frame_currentfile,1,2,0,1,Gtk::EXPAND,Gtk::EXPAND,0,15);
+
+	//m_spinbutton_fluence.set_digits(0);
+	m_spinbutton_amp.set_digits(9);
+	m_table.attach(m_spinbutton_amp,0,1,2,3,Gtk::EXPAND,Gtk::EXPAND,0,15);
+
+	m_spinbutton_fluence.set_digits(5);
+	m_table.attach(m_spinbutton_fluence,0,1,3,4,Gtk::EXPAND,Gtk::EXPAND,0,15);
+
+	m_spinbutton_fluence_exp.set_digits(0);
+	m_table.attach(m_spinbutton_fluence_exp,0,1,4,5,Gtk::EXPAND,Gtk::EXPAND,0,15);
+
 	m_box1.show();
 
 	m_box1.pack_end(m_table);
@@ -188,7 +207,7 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 
 	// this will include a fluence measurement from a GUI box,
 	// and an input for the current at some point. TODO that.
-	outfile << kdevice.forward_voltage_measurement(0.001) << endl;
+	outfile << m_spinbutton_fluence.get_value() << "E" << m_spinbutton_fluence_exp.get_value_as_int() << " " << kdevice.forward_voltage_measurement(0.001) << endl;
 
 	outfile.close();
 	if(outfile.is_open()){
@@ -314,6 +333,7 @@ void HelloWorld::on_menu_file_new_clicked() {
 
 			std::cout << "Save clicked." << std::endl;
 			filename = dialog.get_filename();
+			gtk_label_set_text(m_label_currentfile.gobj(),filename.c_str());
 			std::cout << "File prepared as: " << filename << std::endl;
 			break;
 
