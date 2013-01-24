@@ -161,6 +161,9 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	// settings for which Keithley device to use
 
 	KeithleyDevice kdevice=KeithleyDevice();
+
+	// And finally, act as if C-n was pressed, to open a file
+	on_menu_file_new_clicked();
 }
 
 HelloWorld::~HelloWorld() {}
@@ -200,6 +203,7 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 	if(outfile.is_open()) {
 		cout << "Outputting to file";
 	} else{
+		// This dialog should pop up when the file is not present, but for some reason it does not.
 	Gtk::MessageDialog dialog(*this, "Problems outputting to the file; measurement will not be recorded",
 		false, Gtk::MESSAGE_ERROR,
 		Gtk::BUTTONS_CLOSE);
@@ -207,7 +211,9 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 
 	// this will include a fluence measurement from a GUI box,
 	// and an input for the current at some point. TODO that.
-	outfile << m_spinbutton_fluence.get_value() << "E" << m_spinbutton_fluence_exp.get_value_as_int() << " " << kdevice.forward_voltage_measurement(0.001) << endl;
+	// No need for an endl, when the program opens the file again, it starts a 
+	// new line.
+	outfile << m_spinbutton_fluence.get_value() << "E" << m_spinbutton_fluence_exp.get_value_as_int() << " " << kdevice.forward_voltage_measurement(0.001);
 
 	outfile.close();
 	if(outfile.is_open()){
