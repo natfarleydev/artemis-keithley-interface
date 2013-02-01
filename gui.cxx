@@ -6,9 +6,9 @@
 
 HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001, 0.0), // for the spinbutton
 	m_spinbutton_amp(m_adjustment_amp),
-	m_adjustment_fluence(0.0,0.0,10.0,0.01,0.1,0.0),
+	m_adjustment_fluence(0.0,0.0,1000.0,0.01,0.1,0.0),
 	m_spinbutton_fluence(m_adjustment_fluence),
-	m_adjustment_fluence_exp(0.0,0.0,40.0),
+	m_adjustment_fluence_exp(0.0,-40.0,40.0),
 	m_spinbutton_fluence_exp(m_adjustment_fluence_exp),
 	m_table(5, 2, true),
 	m_button1("BEAM OFF measurement"),
@@ -165,8 +165,10 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 
 	KeithleyDevice kdevice=KeithleyDevice();
 
-	// And finally, act as if C-n was pressed, to open a file
+	// And finally, open a file for BEAM OFF measurement
 	on_menu_file_new_clicked();
+	// And then open a file for the BEAM ON measurement
+	on_menu_file_newbeamon_clicked();
 }
 
 HelloWorld::~HelloWorld() {}
@@ -364,7 +366,7 @@ void HelloWorld::on_menu_file_open_clicked() {
 
 void HelloWorld::on_menu_file_new_clicked() {
 
-	Gtk::FileChooserDialog dialog("Please choose a file name",
+	Gtk::FileChooserDialog dialog("Please choose a BEAM OFF file name",
 		Gtk::FILE_CHOOSER_ACTION_SAVE);
 	dialog.set_transient_for(*this);
 
