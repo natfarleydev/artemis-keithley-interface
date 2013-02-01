@@ -18,11 +18,12 @@ protected:
 	KeithleyDevice kdevice;
 
 	// The file name
-	string filename;
+	string filenamebeamoff, filenamebeamon;
 
 	//Signal handlers:
 	void on_button_clicked(Glib::ustring data);
 	void on_button1_clicked(Glib::ustring data);
+	void on_button2_clicked(Glib::ustring data);
 
 	void on_menu_file_new_generic();
 	void on_menu_file_quit();
@@ -32,6 +33,7 @@ protected:
 	void on_menu_choices_two();
 
 	void on_menu_file_new_clicked();
+	void on_menu_file_newbeamon_clicked();
 	void on_menu_file_open_clicked();
 	//void on_menu_file_save_clicked();
 	void on_menu_help_about_clicked();
@@ -52,10 +54,10 @@ protected:
 	Gtk::Adjustment m_adjustment_fluence_exp;
 	Gtk::SpinButton m_spinbutton_fluence_exp;
 
-	Gtk::Frame m_frame_currentpulse;
-	Gtk::Label m_label_currentpulse;
-	Gtk::Frame m_frame_currentfile;
-	Gtk::Label m_label_currentfile;
+	Gtk::Frame m_frame_currentbeamofffile;
+	Gtk::Label m_label_currentbeamofffile;
+	Gtk::Frame m_frame_currentbeamonfile;
+	Gtk::Label m_label_currentbeamonfile;
 
 	Gtk::VButtonBox m_buttonbox;
 
