@@ -1,4 +1,4 @@
-﻿Build started 01/02/2013 11:18:48.
+﻿Build started 15/02/2013 10:33:20.
      1>Project "C:\Users\manager\Documents\GitHub\keithley2410-pulse-generator\Kiethley 2410 Controller.vcxproj" on node 2 (clean target(s)).
      1>_PrepareForClean:
          Deleting file "Debug\Kiethley 2410 Controller.lastbuildstate".
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.01
+Time Elapsed 00:00:00.02

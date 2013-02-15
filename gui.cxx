@@ -218,7 +218,15 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 	// and an input for the current at some point. TODO that.
 	// No need for an endl, when the program opens the file again, it starts a 
 	// new line.
-	outfile << m_spinbutton_fluence.get_value() << "E" << m_spinbutton_fluence_exp.get_value_as_int() << " " << kdevice.forward_voltage_measurement(0.001);
+
+	time_t rawtime;
+	struct tm * timeinfo;
+	char tmptime[10];
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	strftime(tmptime,10,"%X",timeinfo);
+	outfile << tmptime << "," << m_spinbutton_fluence.get_value() << "e" << m_spinbutton_fluence_exp.get_value_as_int() << "," << kdevice.forward_voltage_measurement(0.001);
 
 	outfile.close();
 	if(outfile.is_open()){
