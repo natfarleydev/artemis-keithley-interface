@@ -10,6 +10,8 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	m_spinbutton_fluence(m_adjustment_fluence),
 	m_adjustment_fluence_exp(0.0,-40.0,40.0),
 	m_spinbutton_fluence_exp(m_adjustment_fluence_exp),
+	m_adjustment_datum_number(0,0,1000),
+	m_spinbutton_datum_number(m_adjustment_datum_number),
 	m_table(5, 2, true),
 	m_button1("BEAM OFF measurement"),
 	m_button2("BEAM ON measurement"),
@@ -144,14 +146,28 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	m_table.attach(m_frame_currentbeamonfile,1,2,0,1,Gtk::EXPAND,Gtk::EXPAND,0,15);
 
 	//m_spinbutton_fluence.set_digits(0);
-	m_spinbutton_amp.set_digits(9);
-	m_table.attach(m_spinbutton_amp,0,1,2,3,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	//m_spinbutton_amp.set_digits(9);
+	//m_table.attach(m_spinbutton_amp,0,1,2,3,Gtk::EXPAND,Gtk::EXPAND,0,15);
 
 	m_spinbutton_fluence.set_digits(5);
-	m_table.attach(m_spinbutton_fluence,0,1,3,4,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	//m_table.attach(m_spinbutton_fluence,0,1,3,4,Gtk::EXPAND,Gtk::EXPAND,0,15);
 
 	m_spinbutton_fluence_exp.set_digits(0);
-	m_table.attach(m_spinbutton_fluence_exp,0,1,4,5,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	//m_table.attach(m_spinbutton_fluence_exp,0,1,4,5,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	m_table.attach(m_box_fluence,0,2,2,3,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	m_label_fluence.set_text("Fluence: ");
+	m_label_fluence_exp.set_text("E");
+	m_box_fluence.pack_end(m_spinbutton_fluence_exp);
+	m_box_fluence.pack_end(m_label_fluence_exp);
+	m_box_fluence.pack_end(m_spinbutton_fluence);
+	m_box_fluence.pack_end(m_label_fluence);
+
+
+	m_label_fluence.show();
+	m_label_fluence_exp.show();
+	m_spinbutton_fluence.show();
+	m_spinbutton_fluence_exp.show();
+	m_box_fluence.show();
 
 	m_box1.show();
 

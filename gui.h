@@ -2,6 +2,7 @@
 #define GTKMM_GUI_H
 
 #include <gtkmm.h>
+#include <gtkmm/box.h>
 #include "keithley_functions.h"
 
 class HelloWorld : public Gtk::Window	{
@@ -47,12 +48,17 @@ protected:
 
 	Gtk::Button m_button1, m_button2, m_button_file, m_button_folder;
 
+	Gtk::HBox m_box_fluence;
 	Gtk::Adjustment m_adjustment_amp;
 	Gtk::SpinButton m_spinbutton_amp;
 	Gtk::Adjustment m_adjustment_fluence;
 	Gtk::SpinButton m_spinbutton_fluence;
+	Gtk::Label m_label_fluence;
 	Gtk::Adjustment m_adjustment_fluence_exp;
 	Gtk::SpinButton m_spinbutton_fluence_exp;
+	Gtk::Label m_label_fluence_exp;
+	Gtk::Adjustment m_adjustment_datum_number;
+	Gtk::SpinButton m_spinbutton_datum_number;
 
 	Gtk::Frame m_frame_currentbeamofffile;
 	Gtk::Label m_label_currentbeamofffile;
