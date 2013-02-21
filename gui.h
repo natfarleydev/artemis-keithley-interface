@@ -25,6 +25,7 @@ protected:
 	void on_button_clicked(Glib::ustring data);
 	void on_button1_clicked(Glib::ustring data);
 	void on_button2_clicked(Glib::ustring data);
+	void on_button_ivcurve_clicked(Glib::ustring data);
 
 	void on_menu_file_new_generic();
 	void on_menu_file_quit();
@@ -59,6 +60,9 @@ protected:
 	Gtk::Label m_label_fluence_exp;
 	Gtk::Adjustment m_adjustment_datum_number;
 	Gtk::SpinButton m_spinbutton_datum_number;
+	Gtk::Label m_label_datum_number;
+	Gtk::HBox m_box_datum_number;
+	Gtk::Button m_button_ivcurve;
 
 	Gtk::Frame m_frame_currentbeamofffile;
 	Gtk::Label m_label_currentbeamofffile;

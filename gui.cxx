@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <cmath>
 
 HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001, 0.0), // for the spinbutton
 	m_spinbutton_amp(m_adjustment_amp),
@@ -15,6 +16,7 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	m_table(5, 2, true),
 	m_button1("BEAM OFF measurement"),
 	m_button2("BEAM ON measurement"),
+	m_button_ivcurve("Take IV curve measurement"),
 	m_frame_currentbeamofffile("Current BEAM OFF File"),
 	m_label_currentbeamofffile("Not Selected"),
 	m_frame_currentbeamonfile("Current BEAM ON File"),
@@ -123,6 +125,9 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	m_button1.signal_clicked().connect(sigc::bind<Glib::ustring>(
 		sigc::mem_fun(*this, &HelloWorld::on_button1_clicked), "button 1 "));
 
+	m_button_ivcurve.signal_clicked().connect(sigc::bind<Glib::ustring>(
+		sigc::mem_fun(*this, &HelloWorld::on_button_ivcurve_clicked), "button ivcurve "));
+
 	//instead of gtk_container_add, we pack this button into the invisible
 	//box, which has been packind into the window.
 	m_table.attach(m_button1, 0, 1, 1, 2);
@@ -161,13 +166,20 @@ HelloWorld::HelloWorld() : m_adjustment_amp(0.0, 0.0, 1000.0, 0.0000001, 0.0001,
 	m_box_fluence.pack_end(m_label_fluence_exp);
 	m_box_fluence.pack_end(m_spinbutton_fluence);
 	m_box_fluence.pack_end(m_label_fluence);
-
-
+	
 	m_label_fluence.show();
 	m_label_fluence_exp.show();
 	m_spinbutton_fluence.show();
 	m_spinbutton_fluence_exp.show();
 	m_box_fluence.show();
+
+	m_table.attach(m_box_datum_number,0,1,3,4,Gtk::EXPAND,Gtk::EXPAND,0,15);
+	m_label_datum_number.set_text("Datum Number (unique)");
+	m_box_datum_number.pack_end(m_spinbutton_datum_number);
+	m_box_datum_number.pack_end(m_label_datum_number);
+
+	m_table.attach(m_button_ivcurve,1,2,3,4,Gtk::EXPAND,Gtk::EXPAND,0,15);
+
 
 	m_box1.show();
 
@@ -251,6 +263,61 @@ void HelloWorld::on_button1_clicked(Glib::ustring data)
 	} else {
 		cout << "File closed" << endl;
 	}
+
+	cout << "End of measurement" << endl;
+}
+
+void HelloWorld::on_button_ivcurve_clicked(Glib::ustring data)
+{
+	std::cout <<"Hello World -" << data << "was pressed" << std::endl;
+
+	cout << "Also, try to measure voltage at 1 mA" << endl;
+
+	// Opening file for read in
+	ofstream outfile;
+
+	string ivcurve_tmp_filename = filenamebeamoff;
+	ostringstream ivcurve_tmp_ss;
+	ivcurve_tmp_ss << filenamebeamoff << m_spinbutton_datum_number.get_value_as_int();
+	ivcurve_tmp_filename = ivcurve_tmp_ss.str();
+
+
+	outfile.open(ivcurve_tmp_filename.c_str(), ios::app);
+
+	if(outfile.is_open()) {
+		cout << "Outputting to file";
+	} else{
+		// This dialog should pop up when the file is not present, but for some reason it does not.
+	Gtk::MessageDialog dialog(*this, "Problems outputting to the file; measurement will not be recorded",
+		false, Gtk::MESSAGE_ERROR,
+		Gtk::BUTTONS_CLOSE);
+	dialog.show();
+	}
+
+	// this will include a fluence measurement from a GUI box,
+	// and an input for the current at some point. TODO that.
+	// No need for an endl, when the program opens the file again, it starts a 
+	// new line.
+
+	time_t rawtime;
+	struct tm * timeinfo;
+	char tmptime[10];
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	strftime(tmptime,10,"%X",timeinfo);
+	for(int i=0;i<210;i++) {
+		double j = 1e-9*pow(10,((double)i)/30.0); // finish off making it go from 1e-4 to 1e-2
+		outfile << tmptime << "," << m_spinbutton_fluence.get_value() << "e" << m_spinbutton_fluence_exp.get_value_as_int() << "," << kdevice.forward_voltage_measurement(j);
+	}
+
+	outfile.close();
+	//if(outfile.is_open()){
+	//	cout << "Problems closing file, oh well!" << endl;
+	//	cout << "File left open" << endl;
+	//} else {
+	//	cout << "File closed" << endl;
+	//}
 
 	cout << "End of measurement" << endl;
 }
