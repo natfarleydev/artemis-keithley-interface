@@ -24,7 +24,7 @@ int main (int argc, char *argv[]) {
 
 	Gtk::Main::run(helloworld);
 
-	return 0;
+	return 0; //ends program
 
 }
 
